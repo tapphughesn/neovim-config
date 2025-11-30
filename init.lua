@@ -10,6 +10,7 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.termguicolors = true
 vim.opt.clipboard = "unnamedplus"
+vim.opt.colorcolumn = "100"
 
 -- Leader key
 vim.g.mapleader = " "

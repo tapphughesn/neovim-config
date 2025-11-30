@@ -1,0 +1,315 @@
+-----------------------------------------------------------
+-- Basic Settings
+-----------------------------------------------------------
+
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.mouse = "a"
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.termguicolors = true
+vim.opt.clipboard = "unnamedplus"
+
+-- Leader key
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+local keymap = vim.keymap.set
+local opts = { noremap = true, silent = true }
+
+-- ============================
+--        LEADER SHORTCUTS
+-- ============================
+
+-- File explorer (nvim-tree or oil.nvim or netrw)
+keymap("n", "<leader>e", ":Ex<CR>", opts)
+
+-- Buffers
+keymap("n", "<leader>bd", ":bdelete<CR>", opts)
+keymap("n", "<leader>bn", ":bnext<CR>", opts)
+keymap("n", "<leader>bp", ":bprevious<CR>", opts)
+
+-- Window navigation (space + hjkl)
+keymap("n", "<leader>h", "<C-w>h", opts)
+keymap("n", "<leader>j", "<C-w>j", opts)
+keymap("n", "<leader>k", "<C-w>k", opts)
+keymap("n", "<leader>l", "<C-w>l", opts)
+
+-- Remove search highlight
+keymap("n", "<leader>n", "<cmd>noh<CR>", opts)
+
+-- Save & quit
+keymap("n", "<leader>w", ":write<CR>", opts)
+keymap("n", "<leader>q", ":quit<CR>", opts)
+keymap("n", "<leader>Q", ":wqa<CR>", opts)
+
+-- Split windows
+keymap("n", "<leader>sv", ":vsplit<CR>", opts)
+keymap("n", "<leader>sh", ":split<CR>", opts)
+
+-- Telescope
+keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts)
+keymap("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", opts)
+keymap("n", "<leader>fb", "<cmd>Telescope buffers<CR>", opts)
+keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", opts)
+
+-- LSP helpers (if you use built-in LSP)
+keymap("n", "<leader>rn", vim.lsp.buf.rename, opts)
+keymap("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+keymap("n", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, opts)
+keymap("n", "<Leader>gd", vim.lsp.buf.definition)
+keymap("n", "<Leader>K", vim.lsp.buf.hover)
+
+-- Testing
+keymap("n", "<leader>tt", function() require("neotest").run.run() end)
+keymap("n", "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end)
+keymap("n", "<leader>ts", function() require("neotest").summary.toggle() end)
+keymap("n", "<leader>to", function() require("neotest").output.open({ enter = true }) end)
+keymap("n", "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end)
+
+-----------------------------------------------------------
+-- Plugin Manager: lazy.nvim
+-----------------------------------------------------------
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+
+  -- Mason: LSP installer
+  { "neovim/nvim-lspconfig" },
+  { "williamboman/mason.nvim",          build = ":MasonUpdate" },
+  { "williamboman/mason-lspconfig.nvim" },
+
+  -- Autocomplete
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "L3MON4D3/LuaSnip",
+    },
+  },
+
+  -- Treesitter
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+  },
+
+  -- Comment / Block Comment
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    lazy = true,
+  },
+  {
+    "numToStr/Comment.nvim",
+    opts = function()
+      return {
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+      }
+    end,
+    lazy = false,
+  },
+
+  -- Colors
+  { "ellisonleao/gruvbox.nvim", },
+  { "marko-cerovac/material.nvim", },
+  { "folke/tokyonight.nvim", },
+  { "maxmx03/solarized.nvim", },
+  { "oxfist/night-owl.nvim", },
+  { "loctvl842/monokai-pro.nvim", },
+  { "catppuccin/nvim",             name = "catppuccin", },
+  { "idr4n/github-monochrome.nvim" },
+  { "bluz71/vim-nightfly-colors" }, 
+  { "bluz71/vim-moonfly-colors" }, 
+  { "projekt0n/github-nvim-theme" },
+
+  -- Telescope
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+  },
+
+  -- File Explorer
+  { "nvim-tree/nvim-tree.lua" },
+
+  -- Neotest
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-neotest/nvim-nio",
+      -- Adapters
+      "nvim-neotest/neotest-python", -- Python (requires pytest)
+      "nvim-neotest/neotest-jest",   -- Jest for JS/TS
+    },
+    config = function()
+      local neotest = require("neotest")
+      neotest.setup({
+        adapters = {
+          require("neotest-python")({
+            -- Use pytest by default
+            runner = "pytest",
+          }),
+          require("neotest-jest")({
+            -- You can specify jest command if needed
+            jestCommand = "npm test --",
+          }),
+        },
+      })
+    end,
+  }
+})
+
+-----------------------------------------------------------
+-- LSP Setup (Mason + mason-lspconfig + lspconfig)
+-----------------------------------------------------------
+require("mason").setup()
+
+-- Mason-LSPConfig setup
+local mason_lsp = require("mason-lspconfig")
+mason_lsp.setup({
+  ensure_installed = { "lua_ls", "pyright", "ts_ls", "clangd" },
+})
+
+local lspconfig = require("lspconfig")
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+-- Safe setup_handlers call
+if mason_lsp.setup_handlers then
+  mason_lsp.setup_handlers({
+    -- Default handler
+    function(server_name)
+      lspconfig[server_name].setup({
+        capabilities = capabilities,
+      })
+    end,
+    -- Lua LS specific settings
+    ["lua_ls"] = function()
+      lspconfig.lua_ls.setup({
+        capabilities = capabilities,
+        settings = {
+          Lua = {
+            diagnostics = { globals = { "vim" } },
+            workspace = { checkThirdParty = false },
+          },
+        },
+      })
+    end,
+  })
+end
+
+-----------------------------------------------------------
+-- Treesitter
+-----------------------------------------------------------
+require("nvim-treesitter.configs").setup({
+  ensure_installed = { "lua", "typescript", "rust", "typescript", "tsx", "javascript", "lua", "python", "c", "cpp" },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+})
+
+-----------------------------------------------------------
+-- Nvim-Tree
+-----------------------------------------------------------
+require("nvim-tree").setup()
+
+-----------------------------------------------------------
+-- Autocomplete
+-----------------------------------------------------------
+
+local cmp = require("cmp")
+cmp.setup({
+  mapping = {
+    ["<Tab>"] = cmp.mapping.select_next_item(),
+    ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+  },
+  sources = {
+    { name = "nvim_lsp" },
+    { name = "buffer" },
+    { name = "path" },
+  },
+})
+
+-----------------------------------------------------------
+-- Colors
+-----------------------------------------------------------
+
+-- Gruvbox
+-- vim.cmd("colorscheme gruvbox")
+
+-- Material
+-- Variants: 'material', 'material-darker', 'material-lighter',
+-- 'material-oceanic', 'material-palenight', 'material-deep-ocean'
+-- vim.cmd("colorscheme material")
+
+-- Tokyonight
+-- Variants: 'tokyonight', 'tokyonight-storm', 'tokyonight-night', 'tokyonight-day'
+-- vim.cmd("colorscheme tokyonight")
+
+-- Solarized (maxmx03/solarized.nvim)
+-- Variants: 'solarized', 'solarized-high', 'solarized-low'
+-- vim.cmd("colorscheme solarized")
+
+-- Night Owl (oxfist/night-owl.nvim)
+-- vim.cmd("colorscheme night-owl")
+
+-- Monokai Pro
+-- Variants include: monokai-pro, monokai-pro-spectrum, monokai-pro-machine,
+-- monokai-pro-ristretto, monokai-pro-octagon, monokai-pro-classic
+-- vim.cmd("colorscheme monokai-pro")
+
+-- Catppuccin
+-- Variants: catppuccin, catppuccin-latte, catppuccin-frappe,
+-- catppuccin-macchiato, catppuccin-mocha
+-- vim.cmd("colorscheme catppuccin")
+
+-- GitHub Monochrome
+-- vim.cmd("colorscheme github-monochrome")
+
+-- Nightfly
+-- vim.cmd("colorscheme nightfly")
+
+-- Moonfly
+-- vim.cmd("colorscheme moonfly")
+
+-- GitHub Theme
+-- Variants: github_dark, github_dark_default, github_dark_dimmed,
+-- github_light, github_light_default, github_light_high_contrast, etc.
+-- vim.cmd("colorscheme github_dark")
+
+-- Auto change colorscheme by filetype
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    local ft = vim.bo.filetype
+
+    if ft == "python" then
+      vim.cmd("colorscheme moonfly")
+    elseif ft == "cpp" then
+      vim.cmd("colorscheme monokai-pro")
+    elseif ft == "rust" then
+      vim.cmd("colorscheme grubbox")
+    elseif ft == "lua" then
+      vim.cmd("colorscheme moonfly")
+    elseif ft == "javascript" or ft == "typescript" then
+      vim.cmd("colorscheme nightfly")
+    end
+  end
+})
+
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })

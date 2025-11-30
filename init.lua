@@ -23,7 +23,12 @@ local opts = { noremap = true, silent = true }
 -- ============================
 
 -- File explorer (nvim-tree or oil.nvim or netrw)
-keymap("n", "<leader>e", ":Ex<CR>", opts)
+-- keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
+-- keymap("n", "<leader>e", ":Ex<CR>", opts)
+
+keymap("n", "<leader>e", function()
+  require("nvim-tree.api").tree.open({ focus = true })
+end)
 
 -- Buffers
 keymap("n", "<leader>bd", ":bdelete<CR>", opts)
@@ -225,7 +230,20 @@ require("nvim-treesitter.configs").setup({
 -----------------------------------------------------------
 -- Nvim-Tree
 -----------------------------------------------------------
-require("nvim-tree").setup()
+require("nvim-tree").setup({
+  view = {
+    float = {
+      enable = false, -- not a floating window
+    },
+    preserve_window_proportions = false,
+  },
+  actions = {
+    open_file = {
+      resize_window = false, -- don’t force a split width
+      quit_on_open = true,
+    },
+  },
+})
 
 -----------------------------------------------------------
 -- Autocomplete

@@ -329,7 +329,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
       vim.cmd("colorscheme grubbox")
     elseif ft == "lua" then
       vim.cmd("colorscheme moonfly")
-    elseif ft == "javascript" or ft == "typescript" then
+    elseif ft == "javascript" or ft == "typescript" or ft == "typescriptreact" then
       vim.cmd("colorscheme nightfly")
     end
   end

@@ -68,11 +68,16 @@ keymap("n", "<Leader>gd", vim.lsp.buf.definition)
 keymap("n", "<Leader>K", vim.lsp.buf.hover)
 
 -- Testing
-keymap("n", "<leader>tt", function() require("neotest").run.run() end)
-keymap("n", "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end)
-keymap("n", "<leader>ts", function() require("neotest").summary.toggle() end)
-keymap("n", "<leader>to", function() require("neotest").output.open({ enter = true }) end)
-keymap("n", "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end)
+keymap("n", "<leader>tt", function() require("neotest").run.run() end, opts)
+keymap("n", "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end, opts)
+keymap("n", "<leader>ts", function() require("neotest").summary.toggle() end, opts)
+keymap("n", "<leader>to", function() require("neotest").output.open({ enter = true }) end, opts)
+keymap("n", "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, opts)
+
+-- Commenting with Comment.nvim
+-- gcc: line comment
+-- gc: comment selection in visual mode
+-- gb: block comment selection in visual mode
 
 -----------------------------------------------------------
 -- Plugin Manager: lazy.nvim

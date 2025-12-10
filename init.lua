@@ -326,7 +326,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
     elseif ft == "cpp" then
       vim.cmd("colorscheme monokai-pro")
     elseif ft == "rust" then
-      vim.cmd("colorscheme grubbox")
+      vim.cmd("colorscheme gruvbox")
     elseif ft == "lua" then
       vim.cmd("colorscheme moonfly")
     elseif ft == "javascript" or ft == "typescript" or ft == "typescriptreact" then

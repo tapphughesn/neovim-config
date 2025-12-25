@@ -66,6 +66,7 @@ keymap("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 keymap("n", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, opts)
 keymap("n", "<Leader>gd", vim.lsp.buf.definition)
 keymap("n", "<Leader>K", vim.lsp.buf.hover)
+keymap('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Show diagnostic error' })
 
 -- Testing
 keymap("n", "<leader>tt", function() require("neotest").run.run() end, opts)

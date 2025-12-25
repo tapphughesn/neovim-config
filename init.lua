@@ -226,7 +226,7 @@ end
 -- Treesitter
 -----------------------------------------------------------
 require("nvim-treesitter.configs").setup({
-  ensure_installed = { "lua", "typescript", "rust", "typescript", "tsx", "javascript", "lua", "python", "c", "cpp" },
+  ensure_installed = { "yaml", "xml", "html", "css", "toml", "lua", "rust", "typescript", "tsx", "javascript", "lua", "python", "c", "cpp" },
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false,

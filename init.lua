@@ -113,6 +113,13 @@ require("lazy").setup({
     },
   },
 
+  -- Autopairs
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = true
+  },
+
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
@@ -269,6 +276,13 @@ cmp.setup({
     { name = "path" },
   },
 })
+
+-- Automatic Pairing (when typing open bracket, get close bracket
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
+)
 
 -----------------------------------------------------------
 -- Colors

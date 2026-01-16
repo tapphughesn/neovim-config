@@ -75,7 +75,7 @@ keymap("n", "<leader>ts", function() require("neotest").summary.toggle() end, op
 keymap("n", "<leader>to", function() require("neotest").output.open({ enter = true }) end, opts)
 keymap("n", "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, opts)
 
--- Commenting with Comment.nvim
+-- Keyboard shortcuts for commenting with Comment.nvim
 -- gcc: line comment
 -- gc: comment selection in visual mode
 -- gb: block comment selection in visual mode
@@ -200,8 +200,25 @@ require("mason").setup()
 -- Mason-LSPConfig setup
 local mason_lsp = require("mason-lspconfig")
 mason_lsp.setup({
-  ensure_installed = { "lua_ls", "pyright", "ts_ls", "clangd" },
+  ensure_installed = { "lua_ls", "ruff", "ts_ls", "clangd" },
 })
+
+-- Installed on my desktop computer in Jan 2026:
+--   ◍ yaml-language-server yamlls (keywords: yaml)
+--   ◍ taplo (keywords: toml)
+--   ◍ neocmakelsp neocmake (keywords: cmake)
+--   ◍ html-lsp html (keywords: html)
+--   ◍ texlab (keywords: latex)
+--   ◍ sqls (keywords: sql)
+--   ◍ css-lsp cssls (keywords: css, scss, less)
+--   ◍ ruff (keywords: python)
+--   ◍ rust-analyzer rust_analyzer (keywords: rust)
+--   ◍ bash-language-server bashls (keywords: bash, csh, ksh, sh, zsh)
+--   ◍ clangd (keywords: c, c++)
+--   ◍ dockerfile-language-server dockerls (keywords: docker)
+--   ◍ lua-language-server lua_ls (keywords: lua)
+--   ◍ markdown-oxide markdown_oxide (keywords: markdown)
+--   ◍ typescript-language-server ts_ls (keywords: typescript, javascript)
 
 local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -277,7 +294,7 @@ cmp.setup({
   },
 })
 
--- Automatic Pairing (when typing open bracket, get close bracket
+-- Automatic Pairing (when typing open bracket, get close bracket)
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp.event:on(
   'confirm_done',

@@ -354,13 +354,13 @@ vim.api.nvim_create_autocmd("BufEnter", {
     local ft = vim.bo.filetype
 
     if ft == "python" then
-      vim.cmd("colorscheme moonfly")
+      vim.cmd("colorscheme github_dark")
     elseif ft == "cpp" then
-      vim.cmd("colorscheme monokai-pro")
+      vim.cmd("colorscheme moonfly")
     elseif ft == "rust" then
       vim.cmd("colorscheme gruvbox")
     elseif ft == "lua" then
-      vim.cmd("colorscheme moonfly")
+      vim.cmd("colorscheme monokai-pro")
     elseif ft == "javascript" or ft == "typescript" or ft == "typescriptreact" then
       vim.cmd("colorscheme nightfly")
     end

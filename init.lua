@@ -153,6 +153,7 @@ require("lazy").setup({
   { "bluz71/vim-nightfly-colors" }, 
   { "bluz71/vim-moonfly-colors" }, 
   { "projekt0n/github-nvim-theme" },
+  { "Mofiqul/vscode.nvim" },
 
   -- Telescope
   {
@@ -354,7 +355,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
     local ft = vim.bo.filetype
 
     if ft == "python" then
-      vim.cmd("colorscheme github_dark")
+      vim.cmd("colorscheme vscode")
     elseif ft == "cpp" then
       vim.cmd("colorscheme moonfly")
     elseif ft == "rust" then

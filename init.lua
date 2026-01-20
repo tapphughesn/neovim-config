@@ -111,6 +111,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Lazy Setup
 -- Specify Lazy packages
 require("lazy").setup({
 
@@ -228,8 +229,8 @@ require("lazy").setup({
   },
   {
     'mrcjkb/rustaceanvim',
-    version = '^6', -- Recommended
-    lazy = false,   -- This plugin is already lazy
+    version = '^6',
+    lazy = false,
   },
 })
 
@@ -422,3 +423,5 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+vim.opt.ignorecase = true
+vim.opt.smartcase = true

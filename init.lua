@@ -154,8 +154,8 @@ require("lazy").setup({
   { "loctvl842/monokai-pro.nvim", },
   { "catppuccin/nvim",             name = "catppuccin", },
   { "idr4n/github-monochrome.nvim" },
-  { "bluz71/vim-nightfly-colors" }, 
-  { "bluz71/vim-moonfly-colors" }, 
+  { "bluz71/vim-nightfly-colors" },
+  { "bluz71/vim-moonfly-colors" },
   { "projekt0n/github-nvim-theme" },
   { "Mofiqul/vscode.nvim" },
 
@@ -331,7 +331,7 @@ cmp.event:on(
 )
 
 -----------------------------------------------------------
--- Colors
+-- Colorthemes (and Autocommand)
 -----------------------------------------------------------
 
 -- Gruvbox
@@ -395,6 +395,17 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end
 })
+
+-----------------------------------------------------------
+-- Autocommands
+-----------------------------------------------------------
+
+-- Nothing here yet
+
+
+-----------------------------------------------------------
+-- Global settings
+-----------------------------------------------------------
 
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })

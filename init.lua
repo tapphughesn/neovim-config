@@ -32,11 +32,6 @@ keymap("n", "<leader>e", function()
   require("nvim-tree.api").tree.open({ focus = true })
 end)
 
--- Buffers
-keymap("n", "<leader>bd", ":bdelete<CR>", opts)
-keymap("n", "<leader>bn", ":bnext<CR>", opts)
-keymap("n", "<leader>bp", ":bprevious<CR>", opts)
-
 -- Window navigation (space + hjkl)
 keymap("n", "<leader>h", "<C-w>h", opts)
 keymap("n", "<leader>j", "<C-w>j", opts)

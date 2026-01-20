@@ -95,6 +95,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Specify Lazy packages
 require("lazy").setup({
 
   -- Mason: LSP installer
@@ -141,7 +142,7 @@ require("lazy").setup({
     lazy = false,
   },
 
-  -- Colors
+  -- Color Themes
   { "ellisonleao/gruvbox.nvim", },
   { "marko-cerovac/material.nvim", },
   { "folke/tokyonight.nvim", },

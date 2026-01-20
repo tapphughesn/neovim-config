@@ -71,6 +71,13 @@ keymap("n", "<leader>ts", function() require("neotest").summary.toggle() end, op
 keymap("n", "<leader>to", function() require("neotest").output.open({ enter = true }) end, opts)
 keymap("n", "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, opts)
 
+-- Debugging (nvim-dap)
+keymap('n', '<F5>', function() require('dap').continue() end)
+keymap('n', '<F10>', function() require('dap').step_over() end)
+keymap('n', '<F11>', function() require('dap').step_into() end)
+keymap('n', '<F12>', function() require('dap').step_out() end)
+keymap('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
+
 -- Keyboard shortcuts for commenting with Comment.nvim
 -- gcc: line comment
 -- gc: comment selection in visual mode
@@ -189,7 +196,28 @@ require("lazy").setup({
         },
       })
     end,
-  }
+  },
+
+  -- Debugging with a DAP (nvim-dap-ui)
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+    config = function()
+      local dap, dapui = require("dap"), require("dapui")
+      dapui.setup()
+      dap.listeners.after.event_initialized["dapui_config"] = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated["dapui_config"] = function()
+        dapui.close()
+      end
+    end
+  },
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^6', -- Recommended
+    lazy = false,   -- This plugin is already lazy
+  },
 })
 
 -----------------------------------------------------------
@@ -213,7 +241,6 @@ mason_lsp.setup({
 --   ◍ markdown-oxide markdown_oxide (keywords: markdown)
 --   ◍ neocmakelsp neocmake (keywords: cmake)
 --   ◍ ruff (keywords: python)
---   ◍ rust-analyzer rust_analyzer (keywords: rust)
 --   ◍ sqls (keywords: sql)
 --   ◍ taplo (keywords: toml)
 --   ◍ texlab (keywords: latex)
@@ -244,6 +271,8 @@ if mason_lsp.setup_handlers then
         },
       })
     end,
+    -- Disables rust_analyzer so rustaceanvim can handle it
+    ["rust_analyzer"] = function() end,
   })
 end
 

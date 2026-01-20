@@ -84,6 +84,19 @@ keymap('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
 -- gb: block comment selection in visual mode
 
 -----------------------------------------------------------
+-- Rustacean setup (before Lazy.nvim setup)
+-----------------------------------------------------------
+vim.g.rustaceanvim = {
+  server = {
+    capabilities = vim.lsp.protocol.make_client_capabilities(),
+    on_attach = function(client, bufnr)
+      -- Optional: Put your Rust-specific keymaps here if you want them
+      -- to only exist when editing Rust files.
+    end,
+  },
+}
+
+-----------------------------------------------------------
 -- Plugin Manager: lazy.nvim
 -----------------------------------------------------------
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

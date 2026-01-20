@@ -174,6 +174,7 @@ require("lazy").setup({
       -- Adapters
       "nvim-neotest/neotest-python", -- Python (requires pytest)
       "nvim-neotest/neotest-jest",   -- Jest for JS/TS
+      "rouge8/neotest-rust",
     },
     config = function()
       local neotest = require("neotest")
@@ -184,9 +185,10 @@ require("lazy").setup({
             runner = "pytest",
           }),
           require("neotest-jest")({
-            -- You can specify jest command if needed
+            -- Specify jest command if needed
             jestCommand = "npm test --",
           }),
+          require("neotest-rust"),
         },
       })
     end,

@@ -70,6 +70,9 @@ keymap("n", "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%
 keymap("n", "<leader>ts", function() require("neotest").summary.toggle() end, opts)
 keymap("n", "<leader>to", function() require("neotest").output.open({ enter = true }) end, opts)
 keymap("n", "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, opts)
+keymap("n", "<leader>td", function()
+  require("neotest").run.run({strategy = "dap"})
+end, opts)
 
 -- Debugging (nvim-dap)
 keymap('n', '<F5>', function() require('dap').continue() end)
@@ -189,8 +192,8 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter",
       "nvim-neotest/nvim-nio",
       -- Adapters
-      "nvim-neotest/neotest-python", -- Python (requires pytest)
-      "nvim-neotest/neotest-jest",   -- Jest for JS/TS
+      "nvim-neotest/neotest-python",
+      "nvim-neotest/neotest-jest",
       "rouge8/neotest-rust",
     },
     config = function()

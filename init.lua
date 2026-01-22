@@ -242,7 +242,8 @@ require("mason").setup()
 -- Mason-LSPConfig setup
 local mason_lsp = require("mason-lspconfig")
 mason_lsp.setup({
-  ensure_installed = { "lua_ls", "ruff", "ts_ls", "clangd" },
+  -- no need to ensure rust-analyzer is installed since I'm using rustaceanvim
+  ensure_installed = { "lua_ls", "pyright", "ruff", "ts_ls", "clangd" },
 })
 
 -- Installed LSPs on my desktop computer in Jan 2026:
@@ -273,6 +274,38 @@ if mason_lsp.setup_handlers then
         capabilities = capabilities,
       })
     end,
+
+    -- 1. Pyright Configuration
+    ["pyright"] = function()
+      lspconfig.pyright.setup({
+        capabilities = capabilities,
+        settings = {
+          pyright = {
+            -- Using Ruff's import organizer instead
+            disableOrganizeImports = true,
+          },
+          python = {
+            analysis = {
+              -- Ignore all files for analysis to exclusively use Ruff for linting
+              -- This prevents duplicate "unused import" warnings
+              ignore = { '*' },
+            },
+          },
+        },
+      })
+    end,
+
+    -- 2. Ruff Configuration
+    ["ruff"] = function()
+      lspconfig.ruff.setup({
+        capabilities = capabilities,
+        on_attach = function(client, bufnr)
+          -- Disable hover in favor of Pyright
+          client.server_capabilities.hoverProvider = false
+        end,
+      })
+    end,
+
     -- Lua LS specific settings
     ["lua_ls"] = function()
       lspconfig.lua_ls.setup({

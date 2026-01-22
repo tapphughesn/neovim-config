@@ -90,8 +90,7 @@ vim.g.rustaceanvim = {
   server = {
     capabilities = vim.lsp.protocol.make_client_capabilities(),
     on_attach = function(client, bufnr)
-      -- Optional: Put your Rust-specific keymaps here if you want them
-      -- to only exist when editing Rust files.
+      -- I could put Rust-specific keymaps here
     end,
   },
 }

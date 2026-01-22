@@ -246,22 +246,6 @@ mason_lsp.setup({
   ensure_installed = { "lua_ls", "pyright", "ruff", "ts_ls", "clangd" },
 })
 
--- Installed LSPs on my desktop computer in Jan 2026:
---   ◍ bash-language-server bashls (keywords: bash, csh, ksh, sh, zsh)
---   ◍ clangd (keywords: c, c++)
---   ◍ css-lsp cssls (keywords: css, scss, less)
---   ◍ dockerfile-language-server dockerls (keywords: docker)
---   ◍ html-lsp html (keywords: html)
---   ◍ lua-language-server lua_ls (keywords: lua)
---   ◍ markdown-oxide markdown_oxide (keywords: markdown)
---   ◍ neocmakelsp neocmake (keywords: cmake)
---   ◍ ruff (keywords: python)
---   ◍ sqls (keywords: sql)
---   ◍ taplo (keywords: toml)
---   ◍ texlab (keywords: latex)
---   ◍ typescript-language-server ts_ls (keywords: typescript, javascript)
---   ◍ yaml-language-server yamlls (keywords: yaml)
-
 local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 

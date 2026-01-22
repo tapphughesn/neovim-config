@@ -211,12 +211,30 @@ require("lazy").setup({
     end,
   },
 
-  -- Debugging with a DAP (nvim-dap-ui)
+  -- Debugging with a DAP (nvim-dap, nvim-dap-ui)
   {
     "rcarriga/nvim-dap-ui",
-    dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio",
+      "williamboman/mason.nvim",
+      "jay-babu/mason-nvim-dap.nvim",
+    },
     config = function()
       local dap, dapui = require("dap"), require("dapui")
+      local mason_dap = require("mason-nvim-dap")
+
+      mason_dap.setup({
+        ensure_installed = { "python" },
+        automatic_installation = true,
+        handlers = {
+          function(config)
+            -- This keeps the default mason-nvim-dap setup for all debuggers
+            mason_dap.default_setup(config)
+          end,
+        },
+      })
+
       dapui.setup()
       dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open()
@@ -224,8 +242,13 @@ require("lazy").setup({
       dap.listeners.before.event_terminated["dapui_config"] = function()
         dapui.close()
       end
+      dap.listeners.before.event_exited["dapui_config"] = function()
+        dapui.close()
+      end
     end
   },
+
+  -- Rustaceanvim, I use it for debuging, LSP, and more
   {
     'mrcjkb/rustaceanvim',
     version = '^6',
@@ -425,13 +448,42 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end
 })
+-----------------------------------------------------------
+-- DAP setup
+-----------------------------------------------------------
+
+local dap = require('dap')
+
+dap.configurations.python = {
+  {
+    type = 'python',
+    request = 'launch',
+    name = "Launch file",
+    program = "${file}",
+    console = "integratedTerminal",
+    pythonPath = function()
+      local venv_path = vim.fs.find({ ".venv" }, { upward = true, type = "directory" })[1]
+
+      if venv_path then
+        local suffix = vim.fn.has("win32") == 1 and "/Scripts/python.exe" or "/bin/python"
+        local full_path = venv_path .. suffix
+
+        if vim.fn.executable(full_path) == 1 then
+          return full_path
+        end
+      end
+
+      -- fallback if no venv
+      return "python3"
+    end,
+  },
+}
 
 -----------------------------------------------------------
 -- Autocommands
 -----------------------------------------------------------
 
 -- Nothing here yet
-
 
 -----------------------------------------------------------
 -- Global settings

@@ -84,7 +84,7 @@ keymap('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
 -- gb: block comment selection in visual mode
 
 -----------------------------------------------------------
--- Rustacean setup (before Lazy.nvim setup)
+-- Rustaceanvim setup (before Lazy.nvim setup)
 -----------------------------------------------------------
 vim.g.rustaceanvim = {
   server = {

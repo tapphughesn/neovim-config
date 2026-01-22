@@ -229,8 +229,20 @@ require("lazy").setup({
         automatic_installation = true,
         handlers = {
           function(config)
-            -- This keeps the default mason-nvim-dap setup for all debuggers
+            -- Keep default for other languages
             mason_dap.default_setup(config)
+          end,
+
+          python = function(config)
+            local mason_path = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
+
+            config.adapters = {
+              type = "executable",
+              command = mason_path,
+              args = { "-m", "debugpy.adapter" },
+            }
+
+            require('mason-nvim-dap').default_setup(config)
           end,
         },
       })

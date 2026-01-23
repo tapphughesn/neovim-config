@@ -257,6 +257,9 @@ require("lazy").setup({
 
             require('mason-nvim-dap').default_setup(config)
           end,
+
+          -- Ignore codelldb since it's handled by rustaceanvim
+          codelldb = function(config) end,
         },
       })
 

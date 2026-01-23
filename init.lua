@@ -71,7 +71,7 @@ keymap("n", "<leader>ts", function() require("neotest").summary.toggle() end, op
 keymap("n", "<leader>to", function() require("neotest").output.open({ enter = true }) end, opts)
 keymap("n", "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, opts)
 keymap("n", "<leader>td", function()
-  require("neotest").run.run({strategy = "dap"})
+  require("neotest").run.run({ strategy = "dap" })
 end, opts)
 
 -- Debugging (nvim-dap)
@@ -87,7 +87,7 @@ keymap('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
 -- gb: block comment selection in visual mode
 
 -----------------------------------------------------------
--- Rustaceanvim setup (before Lazy.nvim setup)
+-- Rustaceanvim setup
 -----------------------------------------------------------
 vim.g.rustaceanvim = {
   server = {
@@ -95,6 +95,16 @@ vim.g.rustaceanvim = {
     on_attach = function(client, bufnr)
       -- I could put Rust-specific keymaps here
     end,
+  },
+  dap = {
+    adapter = {
+      type = 'server',
+      port = "${port}",
+      executable = {
+        command = os.getenv("HOME") .. '/.local/share/nvim/mason/bin/codelldb',
+        args = { "--port", "${port}" },
+      }
+    },
   },
 }
 
@@ -228,7 +238,7 @@ require("lazy").setup({
       local mason_dap = require("mason-nvim-dap")
 
       mason_dap.setup({
-        ensure_installed = { "python" },
+        ensure_installed = { "python", "codelldb" },
         automatic_installation = true,
         handlers = {
           function(config)

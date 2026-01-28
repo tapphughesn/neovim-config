@@ -298,6 +298,15 @@ require("lazy").setup({
     version = '^6',
     lazy = false,
   },
+
+  -- markdown-preview for viewing markdown files in browser
+  -- I use for mermaid.js diagrams as well as usual markdown
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = ":call mkdp#util#install()"
+  },
 })
 
 -----------------------------------------------------------

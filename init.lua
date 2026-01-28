@@ -153,7 +153,23 @@ require("lazy").setup({
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
+    lazy = false,
+    build = ':TSUpdate',
+    branch = "main",
+    config = function()
+      local configs = require("nvim-treesitter")
+
+      configs.setup({
+        ensure_installed = {
+          "latex", "bibtex", "lua", "vim", "vimdoc", "query", "python",
+          "rust", "javascript", "typescript", "c", "cpp"
+        },
+        sync_install = false,
+        highlight = {
+          enable = true,
+        },
+      })
+    end,
   },
 
   -- Comment / Block Comment
@@ -358,17 +374,6 @@ if mason_lsp.setup_handlers then
 end
 
 -----------------------------------------------------------
--- Treesitter
------------------------------------------------------------
-require("nvim-treesitter.configs").setup({
-  ensure_installed = { "yaml", "xml", "html", "css", "toml", "lua", "rust", "typescript", "tsx", "javascript", "lua", "python", "c", "cpp" },
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-})
-
------------------------------------------------------------
 -- Nvim-Tree
 -----------------------------------------------------------
 require("nvim-tree").setup({
@@ -473,6 +478,10 @@ vim.api.nvim_create_autocmd("BufEnter", {
       vim.cmd("colorscheme monokai-pro")
     elseif ft == "javascript" or ft == "typescript" or ft == "typescriptreact" then
       vim.cmd("colorscheme nightfly")
+    elseif ft == "tex" then
+      vim.cmd("colorscheme vscode")
+    else
+      vim.cmd("colorscheme vscode")
     end
   end
 })

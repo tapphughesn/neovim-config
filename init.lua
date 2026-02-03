@@ -486,11 +486,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
       vim.cmd("colorscheme gruvbox")
     elseif ft == "lua" then
       vim.cmd("colorscheme monokai-pro")
-    elseif ft == "javascript" or ft == "typescript" or ft == "typescriptreact" then
+    elseif ft == "javascript" or ft == "typescript" or ft == "typescriptreact" or ft == "css" or ft == "html" then
       vim.cmd("colorscheme nightfly")
     elseif ft == "tex" then
-      vim.cmd("colorscheme vscode")
-    else
       vim.cmd("colorscheme vscode")
     end
   end

@@ -61,7 +61,8 @@ keymap("n", "<leader>rn", vim.lsp.buf.rename, opts)
 keymap("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 keymap("n", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, opts)
 keymap("n", "<Leader>gd", vim.lsp.buf.definition)
-keymap("n", "<Leader>K", vim.lsp.buf.hover)
+keymap("n", "<Leader>gr", vim.lsp.buf.references)
+-- keymap("n", "<Leader>K", vim.lsp.buf.hover) -- use shift+K instead
 keymap('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Show diagnostic error' })
 
 -- Testing

@@ -1,4 +1,6 @@
+--- Make Lua LSP not complain about `vim` global
 ---@diagnostic disable: undefined-global
+
 -----------------------------------------------------------
 -- Basic Settings
 -----------------------------------------------------------
@@ -12,22 +14,21 @@ vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.colorcolumn = "100"
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
--- Leader key
+-----------------------------------------------------------
+-- Keyboard Shortcuts (leader key)
+-----------------------------------------------------------
+
+-- Leader key is spacebar
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
--- ============================
---        LEADER SHORTCUTS
--- ============================
-
--- File explorer (nvim-tree or oil.nvim or netrw)
--- keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
--- keymap("n", "<leader>e", ":Ex<CR>", opts)
-
+-- File explorer (nvim-tree)
 keymap("n", "<leader>e", function()
   require("nvim-tree.api").tree.open({ focus = true })
 end)
@@ -62,7 +63,6 @@ keymap("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 keymap("n", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, opts)
 keymap("n", "<Leader>gd", vim.lsp.buf.definition)
 keymap("n", "<Leader>gr", vim.lsp.buf.references)
--- keymap("n", "<Leader>K", vim.lsp.buf.hover) -- use shift+K instead
 keymap('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Show diagnostic error' })
 
 -- Testing
@@ -88,8 +88,9 @@ keymap('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
 -- gb: block comment selection in visual mode
 
 -----------------------------------------------------------
--- Rustaceanvim setup
+-- Rustaceanvim Setup (must come before LSP/Lazy)
 -----------------------------------------------------------
+
 vim.g.rustaceanvim = {
   server = {
     capabilities = vim.lsp.protocol.make_client_capabilities(),
@@ -112,6 +113,7 @@ vim.g.rustaceanvim = {
 -----------------------------------------------------------
 -- Plugin Manager: lazy.nvim
 -----------------------------------------------------------
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -125,7 +127,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Lazy Setup
--- Specify Lazy packages
 require("lazy").setup({
 
   -- Mason: LSP installer
@@ -293,7 +294,7 @@ require("lazy").setup({
     end
   },
 
-  -- Rustaceanvim, I use it for debuging, LSP, and more
+  -- Rustaceanvim, I use it for debuging, LSP, and more (in Rust only)
   {
     'mrcjkb/rustaceanvim',
     version = '^6',
@@ -313,6 +314,7 @@ require("lazy").setup({
 -----------------------------------------------------------
 -- LSP Setup (Mason + mason-lspconfig + lspconfig)
 -----------------------------------------------------------
+
 require("mason").setup()
 
 -- Mason-LSPConfig setup
@@ -384,8 +386,9 @@ if mason_lsp.setup_handlers then
 end
 
 -----------------------------------------------------------
--- Nvim-Tree
+-- Nvim-Tree (file explorer) (I also use yazi)
 -----------------------------------------------------------
+
 require("nvim-tree").setup({
   view = {
     float = {
@@ -493,8 +496,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end
 })
+
 -----------------------------------------------------------
--- DAP setup
+-- DAP setup (debugging)
 -----------------------------------------------------------
 
 local dap = require('dap')
@@ -548,11 +552,3 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
------------------------------------------------------------
--- Global settings
------------------------------------------------------------
-
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-vim.opt.ignorecase = true
-vim.opt.smartcase = true

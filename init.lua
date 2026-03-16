@@ -16,6 +16,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.colorcolumn = "100"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+vim.opt.scrolloff = 8
 
 -----------------------------------------------------------
 -- Keyboard Shortcuts (leader key)

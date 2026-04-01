@@ -164,8 +164,8 @@ require("lazy").setup({
 
       configs.setup({
         ensure_installed = {
-          "latex", "bibtex", "lua", "vim", "vimdoc", "query", "python",
-          "rust", "javascript", "typescript", "c", "cpp"
+          "latex", "bibtex", "lua", "vim", "vimdoc", "query", "python", "rust",
+          "javascript", "typescript", "c", "cpp", "markdown", "markdown_inline"
         },
         sync_install = false,
         highlight = {
